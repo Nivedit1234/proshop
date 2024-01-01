@@ -14,16 +14,16 @@ const reviewSchema = new mongoose.Schema(
     },
 
     rating: {
-      type: number,
+      type: Number,
       required: true,
     },
 
     comment: {
-      type: number,
+      type: Number,
       required: true,
     },
   },
-  { timestamps }
+  { timestamps: true }
 );
 
 const productSchema = new mongoose.Schema(
@@ -39,7 +39,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
-    imgage: {
+    image: {
       type: String,
       required: true,
     },
@@ -62,25 +62,25 @@ const productSchema = new mongoose.Schema(
     reviews: [reviewSchema],
 
     rating: {
-      type: number,
+      type: Number,
       required: true,
       default: 0,
     },
 
     numreviews: {
-      type: number,
+      type: Number,
       required: true,
       default: 0,
     },
 
     price: {
-      type: number,
+      type: Number,
       required: true,
       default: 0,
     },
 
     countInStock: {
-      type: number,
+      type: Number,
       required: true,
       default: 0,
     },
@@ -92,4 +92,6 @@ const productSchema = new mongoose.Schema(
 
 const Product = mongoose.model('Product', productSchema);
 
-module.exports = { Product, reviewSchema };
+//module.exports = { Product, reviewSchema };
+
+export default Product;
