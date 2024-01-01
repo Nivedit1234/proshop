@@ -120,10 +120,10 @@ const importData = async () => {
       return user.isAdmin === true; //getting the adminUser
     });
     const sampleProducts = products.map((product) => {
-      return { ...product, user: adminUser };
+      return { ...product, user: adminUser };  //all the products will also have a user field with a user id in it that is the adminUser
     });
 
-    await Product.insertMany(sampleProducts);
+    await Product.insertMany(sampleProducts); //inserting the data in database
 
     console.log('Data Imported!'.green.inverse);
     process.exit();
