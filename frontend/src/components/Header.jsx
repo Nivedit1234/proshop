@@ -24,6 +24,7 @@ const Header = () => {
                     <LinkContainer to='/login'>
                     <Nav.Link><FaUser/>Sign In</Nav.Link>
                     </LinkContainer>
+                    
                 </Nav>
               </Navbar.Collapse> 
             </Container>
