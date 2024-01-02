@@ -69,8 +69,8 @@ const productSchema = new mongoose.Schema(
 
     numreviews: {
       type: Number,
-      required: true,
-      default: 0,
+      required: true, // required also needs commented out
+      default: 0, //this default value 0 was getting stored in mongoDb atlas even after providing any true value to numreviews
     },
 
     price: {

@@ -16,9 +16,9 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRoutes);
 
-// app.get('/', (req, res) => {
-//   res.json(products);
-// });
+app.get('/', (req, res) => {
+  res.json(products);
+});
 
 // app.get('/:id', (req, res) => {
 //   const product = products.find((p) => p._id === req.params.id);
