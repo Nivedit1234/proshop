@@ -7,7 +7,8 @@ import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 import  Rating  from '../components/Rating'
 // import products from '../products'
 import { useGetProductDetailsQuery } from '../slices/productsApiSlices'
-
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 const ProductsScreen = () => {
   
   //const [product,setProduct]=useState({});
@@ -33,7 +34,10 @@ const ProductsScreen = () => {
     return (
     <>
     <Link className='btn btn-light my-3' to='/'>Go Back</Link>
-    {isLoading ? (<h2>Loading</h2>) : error ? (<div>{error?.data?.message}</div>) : 
+    
+    {/* //<Message >Hello</Message> Message component works */}
+
+    {isLoading ? (<Loader>Loading</Loader>) : error ? (<Message variant='danger'>{error?.data?.message}</Message>) : 
     (
       <Row>
       <Col md={5}>
