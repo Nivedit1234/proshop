@@ -1,38 +1,41 @@
 import React from 'react'
-import {useState,useEffect} from 'react'
-import axios from 'axios';
+//import {useState,useEffect} from 'react'
+//import axios from 'axios';
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 import  Rating  from '../components/Rating'
 // import products from '../products'
-
+import { useGetProductDetailsQuery } from '../slices/productsApiSlices'
 
 const ProductsScreen = () => {
-
-  const [product,setProduct]=useState({});
+  
+  //const [product,setProduct]=useState({});
   const { id:productId }=useParams();
 
-  useEffect(()=>{
+  const {data:product,error,isLoading}=useGetProductDetailsQuery(productId);
+  // useEffect(()=>{
 
 
-    const fetchProduct=async()=>{
+  //   const fetchProduct=async()=>{
       
 
-     const {data} = await axios.get(`/api/products/${productId}`);
-      console.log(data);
-      setProduct(data);
-    }
-    fetchProduct();
+  //    const {data} = await axios.get(`/api/products/${productId}`);
+  //     //console.log(data);
+  //     setProduct(data);
+  //   }
+  //   fetchProduct();
 
-  },[productId])
+  // },[productId])
 
 
 
     return (
     <>
     <Link className='btn btn-light my-3' to='/'>Go Back</Link>
-    <Row>
+    {isLoading ? (<h2>Loading</h2>) : error ? (<div>{error?.data?.message}</div>) : 
+    (
+      <Row>
       <Col md={5}>
         <Image src={product.image} alt={product.name} fluid/>
       </Col>
@@ -74,7 +77,9 @@ const ProductsScreen = () => {
         </Card>
       </Col>
 
-    </Row>
+    </Row>)  }
+    
+   
     </>
   )
 }
