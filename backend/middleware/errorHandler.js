@@ -23,6 +23,12 @@ const errorHandler = (err, req, res, next) => {
     // However if we have a invalid **ObjectId** as `req.params.id` and use that to
     // query our products in the database, Mongoose will throw an error before we
     // reach the line of code where we throw our own error.
+
+    //     In section **3 - Custom Error Middleware** we throw an error from our
+    // `getProductById` controller function, with a _custom_ message.
+    // However if we have a invalid **ObjectId** as `req.params.id` and use that to
+    // query our products in the database, Mongoose will throw an error before we
+    // reach the line of code where we throw our own error.
   }
 
   res.status(statusCode).json({

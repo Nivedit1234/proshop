@@ -1,6 +1,6 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import Product from '../models/productModel.js';
-import { errorHandler } from '../middleware/errorHandler.js';
+//import { errorHandler } from '../middleware/errorHandler.js';
 
 //@desc Get all Products
 //@route GET /api/products
@@ -24,5 +24,12 @@ const getProductsById = asyncHandler(async (req, res) => {
     throw new Error('Product Not Found');
   }
 });
+
+//Product Not Found will not be coming as message
+// In section **3 - Custom Error Middleware** we throw an error from our
+// `getProductById` controller function, with a _custom_ message.
+// However if we have a invalid **ObjectId** as `req.params.id` and use that to
+// query our products in the database, Mongoose will throw an error before we
+// reach the line of code where we throw our own error.
 
 export { getProducts, getProductsById };
