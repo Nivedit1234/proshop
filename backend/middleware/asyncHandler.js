@@ -3,3 +3,5 @@ const asyncHandler = (fn) => (req, res, next) => {
 };
 
 export default asyncHandler;
+
+//this asyncHandler avoid overheads of try-catch block when dealing with promises

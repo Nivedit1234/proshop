@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { updateCart } from '../utils/cartUtils';
+
 const initialState = localStorage.getItem('cart')
   ? JSON.parse(localStorage.getItem('cart'))
   : {
@@ -10,10 +12,6 @@ const initialState = localStorage.getItem('cart')
       // totalPrice: 0,
     };
 
-const addDecimals = (num) => {
-  return (Math.round(num * 100) / 100).toFixed(2);
-};
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
@@ -21,7 +19,14 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const item = action.payload;
       const existItem = state.cartItems.find((x) => x._id === item._id); //check to see if the item is already in the cart
-      //if exitsItem is true then we will just update the quantity;
+      //if exitsItem  is true then we will just update the quantity; //existing item is the existing item as
+      //state.cartItems = [
+      //   { _id: 1, name: 'Product A', quantity: 2 },
+      //   { _id: 2, name: 'Product B', quantity: 1 },
+      //   { _id: 3, name: 'Product C', quantity: 3 },
+      // ];
+
+      // const item = { _id: 2, name: 'Product B', quantity: 2 }; item to be added;
 
       if (existItem) {
         state.cartItems = state.cartItems.map((x) =>
@@ -31,48 +36,15 @@ const cartSlice = createSlice({
         state.cartItems = [...state.cartItems, item];
       }
 
-      //To calculate item price
+      return updateCart(state);
+    },
 
-      console.log(state.itemPrice);
-      state.itemPrice = addDecimals(
-        state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-      );
-      state.itemPrice = Number(state.itemPrice);
-      console.log(`items price:${state.itemPrice}`);
-      console.log('items price ' + typeof state.itemPrice);
-      //To calculate item price (if order price is above Rs1000 then free shipping else Rs50 shipping fee)
-      state.shippingPrice = Number(addDecimals(state.itemsPrice > 10 ? 0 : 5));
-      console.log(`Shping price: ${state.shippingPrice}`);
-      console.log('Shping price:' + typeof state.shippingPrice);
-
-      //To calculate Tax Price
-      //console.log(state.taxPrice);
-      console.log(`items price:${state.itemPrice}`);
-
-      state.taxPrice = Number(addDecimals(0.15 * state.itemsPrice));
-
-      console.log(typeof state.taxPrice);
-      //state.taxPrice = 12 * state.taxPrice;
-      //state.taxPrice = Number(state.taxPrice);
-      console.log('tax price ' + typeof state.taxPrice);
-
-      console.log(`tax price: ${state.taxPrice}`);
-      // console.log(`items price:${state.itemPrice}`);
-
-      //state.taxPrice = Number(
-      //addDecimals((0.15 * state.itemsPrice).toFixed(2))
-      //);
-      //console.log(state.taxPrice);
-      //To calculate Total Price
-      state.totalPrice = (Number(state.itemPrice) + Number(state.shippingPrice))
-        //Number(state.taxPrice)
-        .toFixed(2);
-
-      console.log('total price ' + state.totalPrice);
-      localStorage.setItem('cart', JSON.stringify(state));
+    removeFromCart: (state, action) => {
+      state.cartItems = state.cartItems.filter((x) => x._id !== action.payload);
+      return updateCart(state);
     },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 export default cartSlice.reducer;

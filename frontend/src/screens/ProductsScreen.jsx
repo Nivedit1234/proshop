@@ -15,7 +15,7 @@ import { addToCart} from '../slices/cartSlice'
 const ProductsScreen = () => {
   
   //const [product,setProduct]=useState({});
-  
+   
   const { id:productId }=useParams();
   
   const dispatch=useDispatch();
@@ -96,7 +96,7 @@ const ProductsScreen = () => {
                 <Row>
                   <Col>Qty</Col>
                   <Col>
-                   <Form.Control as='select' value={qty} onChange={(e)=>setQty(e.target.value)}>
+                   <Form.Control as='select' value={qty} onChange={(e)=>setQty(Number(e.target.value))}>
                     {[...Array(product.countInStock).keys()].map((x)=>(<option key={x+1} value={x+1}>
                        {x+1}
                     </option>))}
