@@ -7,7 +7,26 @@ import { errorHandler } from '../middleware/errorHandler.js';
 //@access Public
 
 const authUser = asyncHandler(async (req, res) => {
-  res.send('auth user');
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+
+  //We can check the password here also with bcrypt compare method
+  //But Proper way to do this is by writing a checkPassword method in userSchema.
+  //Now that we have defined the matchPassword method in our userSchema we can call that method onto our user object above (const user = await User.findOne({ email });
+  //)
+
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(401);
+    throw new Error('Invalid Email or Password');
+  }
 });
 
 //@desc Register user
