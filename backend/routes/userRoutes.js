@@ -12,12 +12,23 @@ import {
   updateUser,
 } from '../controllers/userController.js';
 import Product from '../models/productModel.js';
+import { protect, admin } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
-router.route('/').get(getUsers).post(registerUser);
+router.route('/').get(protect, admin, getUsers).post(registerUser);
+
 router.post('/logout', logoutUser);
 router.post('/login', authUser);
-router.route('/profile').get(getUserProfile).put(updateUserProfile);
-router.route('/:id').get(getUsersById).put(updateUser).delete(deleteUser);
+
+router
+  .route('/profile')
+  .get(protect, getUserProfile)
+  .put(protect, updateUserProfile);
+
+router
+  .route('/:id')
+  .get(protect, admin, getUsersById)
+  .put(protect, admin, updateUser)
+  .delete(protect, admin, deleteUser);
 
 export default router;
