@@ -19,6 +19,7 @@ const authSlice = createSlice({
     logout: (state, action) => {
       //we need one logout function here and one in usersApiSlice to hit users/logout to
       //this logout func here will take care of clearing localStorage
+      // logged in user doesn't inherit the previous users cart and shipping
       state.userInfo = null;
       localStorage.removeItem('userInfo');
     },
