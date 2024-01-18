@@ -20,34 +20,38 @@ const LoginScreen = () => {
 
     const [login,{isLoading}]=useLoginMutation(); 
     
-    //const {userInfo} =useSelector((state) => state.auth)
+    const {userInfo} = useSelector((state) => state.auth)
 
     // if you are logged in you wanna get redirected to shipping page in order to that we use the search property in useLocation hook
 
 
-    const {search}=useLocation();
-    const sp=new URLSearchParams(search);
-    const redirect=sp.get('redirect') || '/'
+    // const {search}=useLocation();
+    // const sp=new URLSearchParams(search);
+    // const redirect=sp.get('redirect') || '/'
+    
+    //const redirect='/login'
 
-
+    const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get('redirect') || '/';
    
 
     //use useEffect to check to see if you are logged in 
     //becaues if you are logged in you will get redirected to either homepage / or whatever is there is redirect variable
 
-      // useEffect(()=>{
-      //   if(userInfo){
-      //       navigate(redirect)
-      //   }
-      // },[userInfo,navigate,redirect])
+      useEffect(()=>{
+        if(userInfo){
+            navigate(redirect)
+        }
+      },[userInfo,navigate,redirect])
 
 
      const submitHandler=async(e)=>{
           e.preventDefault();
           try {
            const res=await login({email,password}).unwrap()
-            dispatch(setCredentials({res,}));
-           navigate(redirect)
+            dispatch(setCredentials({...res}));
+            navigate(redirect)
 
           } catch (error) {
             toast.error(error?.data?.message || error.err)
@@ -82,7 +86,7 @@ const LoginScreen = () => {
         </Form>
         <Row className="py-3"> 
             <Col>
-             New Customer? <Link to= '/register'>Register</Link>  
+             New Customer? <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Register</Link>  
              {/* //if there is redirect we want to add that onto the link */}
             </Col>
         </Row>
