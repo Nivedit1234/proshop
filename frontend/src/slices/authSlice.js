@@ -11,11 +11,19 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
+      //userInfo will be sent in the pyload in action
+      //so we can set userInfo to payload
       state.userInfo = action.payload;
       localStorage.setItem('userInfo', JSON.stringify(action.payload));
+    },
+    logout: (state, action) => {
+      //we need one logout function here and one in usersApiSlice to hit users/logout to
+      //this logout func here will take care of clearing localStorage
+      state.userInfo = null;
+      localStorage.removeItem('userInfo');
     },
   },
 });
 
-export const { setCredentials } = authSlice.actions;
+export const { setCredentials, logout } = authSlice.actions;
 export default authSlice.reducer;

@@ -49,7 +49,8 @@ const LoginScreen = () => {
      const submitHandler=async(e)=>{
           e.preventDefault();
           try {
-           const res=await login({email,password}).unwrap()
+           //unwrap mwthod will extract resolved value from the promise
+            const res=await login({email,password}).unwrap() 
             dispatch(setCredentials({...res}));
             navigate(redirect)
 
