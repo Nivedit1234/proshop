@@ -1,75 +1,63 @@
-import { useState } from "react";
-//import { Link ,useLocation,useNavigate} from "react-router-dom";
-import { Link } from 'react-router-dom';
+import { useState,useEffect } from "react";
+import { Link,useNavigate,useLocation } from 'react-router-dom';
 import {Button,Form,Row,Col} from 'react-bootstrap'
 import FormContainer from "../components/FormContainer";
-//import { useDispatch,useSelector } from "react-redux";
-//import Loader from '../components/Loader';
-// import { useLoginMutation } from "../slices/userApiSlice";
-//import { setCredentials } from "../slices/authSlice";
-//import { toast } from "react-toastify";
+import { useDispatch,useSelector } from "react-redux";
+import Loader from "../components/Loader";
+import { useLoginMutation } from "../slices/usersApiSlice";
+import { setCredentials } from "../slices/authSlice";
+import {toast} from 'react-toastify'
 import React from 'react'
 
 const LoginScreen = () => {
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('')
 
-   // const [items, setItems] = useState(["hello"]);
+  
 
-// useEffect(() => {
-//   localStorage.setItem('items', JSON.stringify(items));
-// }, [items]);
+    const dispatch=useDispatch();
+    const navigate=useNavigate(); 
 
-    // const dispatch=useDispatch();
-    // const navigate=useNavigate(); 
-
-    // const [login,isLoading]= useLoginMutation();
+    const [login,{isLoading}]=useLoginMutation(); 
     
-    //const {userInfo}=useSelector((state)=>state.auth)
-    // const  {userInfo}  = useSelector((state) => (state.auth));
-    // const { userInfo } = useSelector((state) => state.auth);
-    // console.log('hello')
-    //  console.log(userInfo);
+    //const {userInfo} =useSelector((state) => state.auth)
 
-    //const  userInfo =useSelector((state)=>state.auth)
     // if you are logged in you wanna get redirected to shipping page in order to that we use the search property in useLocation hook
 
-    // const {search}=useLocation();
-    // const sp=new URLSearchParams(search);
-    // const redirect=sp.get('redirect') || '/'
+
+    const {search}=useLocation();
+    const sp=new URLSearchParams(search);
+    const redirect=sp.get('redirect') || '/'
+
+
+   
 
     //use useEffect to check to see if you are logged in 
     //becaues if you are logged in you will get redirected to either homepage / or whatever is there is redirect variable
 
-    // useEffect(()=>{
-      
-    //     if(userInfo)
-    //     {
-    //         navigate(redirect);//if user info is in localstorage then navigate to whatever that redirect is
-    //     }
-
-    // },[userInfo,redirect,navigate])
+      // useEffect(()=>{
+      //   if(userInfo){
+      //       navigate(redirect)
+      //   }
+      // },[userInfo,navigate,redirect])
 
 
      const submitHandler=async(e)=>{
           e.preventDefault();
-            console.log('submit')
-    //      try {
-    //         //unwrap mwthod will extract resolved value from the promise
-    //          const res=await login({email,password}).unwrap();
-    //          dispatch(setCredentials({...res}))   //set credentials will set the localstorage
-    //          navigate(redirect)
-    //      } catch (error) {
-    //          toast.error(error?.data?.message  || error.err)
-    //      } 
+          try {
+           const res=await login({email,password}).unwrap()
+            dispatch(setCredentials({res,}));
+           navigate(redirect)
+
+          } catch (error) {
+            toast.error(error?.data?.message || error.err)
+          }
      }
     return (
       
     <FormContainer>
         <h1>Sign In</h1>
-        {/* {localStorage.setItem('userInfo', JSON.stringify("hello"))} */}
-        {/* {console.log(items)} */}
-        {/* {console.log(userInfo)} */}
+       
         <Form onSubmit={submitHandler} >
             <Form.Group controlId="email" className="my-3">
                 <Form.Label>Email Address</Form.Label>
@@ -89,12 +77,12 @@ const LoginScreen = () => {
                 onChange={(e)=>{setPassword(e.target.value)}}></Form.Control>
 
             </Form.Group>
-            <Button type='submit' variant="primary" className="mt-2" >Sign In</Button>
+            <Button type='submit' variant="primary" className="mt-2"  >Sign In</Button>
             {/* {isLoading && <Loader/>} */}
         </Form>
         <Row className="py-3"> 
             <Col>
-             New Customer? <Link to='/register'>Register</Link>  
+             New Customer? <Link to= '/register'>Register</Link>  
              {/* //if there is redirect we want to add that onto the link */}
             </Col>
         </Row>
