@@ -17,6 +17,15 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    register: builder.mutation({
+      //instead of writing query we are authenticating and making a post request so builder.mutation
+      query: (data) => ({
+        url: `${USERS_URL}`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+
     logout: builder.mutation({
       //we need one logout function here to hit users/logout to destroy the cookie in the backed server
       query: () => ({
@@ -27,4 +36,5 @@ export const usersApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation } = usersApiSlice;
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation } =
+  usersApiSlice;
