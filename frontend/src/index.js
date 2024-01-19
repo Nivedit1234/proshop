@@ -20,6 +20,7 @@ import LoginScreen from './screens/LoginScreen.jsx';
 import RegisterScreen from './screens/Register.jsx';
 import ShippingScreen from './screens/ShippingScreen.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
+import PaymentScreen from './screens/PaymentScreen.jsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
@@ -29,11 +30,15 @@ const router = createBrowserRouter(
       <Route path='/login' element={<LoginScreen />} />
       <Route path='/register' element={<RegisterScreen />} />
       <Route path='/shipping' element={<ShippingScreen />} />
-      {/* <Route path='' element={<PrivateRoute />}>
-        <Route path='/shipping' element={<ShippingScreen />} />
+      {/* <Route path='/payment' element={<PaymentScreen />} /> */}
+
+      {/* <Route path='/shipping' element={<PrivateRoute />}>
+        <Route index='true' element={<ShippingScreen />} />  ===> not working by this method
+        <Route index='true' element={<PaymentScreen />} />  
       </Route> */}
-      <Route path='/shipping' element={<PrivateRoute />}>
-        <Route index='true' element={<ShippingScreen />} />
+      <Route path='' element={<PrivateRoute />}>
+        <Route path='/shipping' element={<ShippingScreen />} />
+        <Route path='/payment' element={<PaymentScreen />} />
       </Route>
     </Route>
   )
