@@ -9,6 +9,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       //instead of writing query we are authenticating and making a post request so builder.mutation
+      //An endpoint definition that alters data on the server or will possibly invalidate the cache.
       query: (data) => ({
         ////data parameter is holding the data to be sent for auth
 

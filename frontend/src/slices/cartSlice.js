@@ -58,6 +58,14 @@ const cartSlice = createSlice({
       state.paymentMethod = action.payload;
       return updateCart(state);
     },
+    clearCartItems: (state, action) => {
+      state.cartItems = [];
+      //we need to clear the cart afer placing the order so thats why clearCartItems
+      // localStorage.setItem('cart', JSON.stringify(state));
+    },
+    // NOTE: here we need to reset state for when a user logs out so the next
+    // user doesn't inherit the previous users cart and shipping
+    //resetCart: (state) => (state = initialState),
   },
 });
 
@@ -66,5 +74,6 @@ export const {
   removeFromCart,
   saveShippingAddress,
   savePaymentMethod,
+  clearCartItems,
 } = cartSlice.actions;
 export default cartSlice.reducer;
