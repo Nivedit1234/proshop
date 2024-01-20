@@ -34,6 +34,10 @@ app.get('/', (req, res) => {
   res.json(products);
 });
 
+app.get('/api/config/paypal', (req, res) => {
+  res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
+});
+
 // app.get('/:id', (req, res) => {
 //   const product = products.find((p) => p._id === req.params.id);
 
