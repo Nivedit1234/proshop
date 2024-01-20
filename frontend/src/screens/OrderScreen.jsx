@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { useGetOrderDetailsQuery,usePayOrderMutation,  useGetPaypalClientIdQuery,} from '../slices/ordersApiSlice';
-// import { PayPalButtons,usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import {PayPalButtons,usePayPalScriptReducer} from '@paypal/react-paypal-js';
 
 const OrderScreen = () => {
@@ -51,10 +50,57 @@ const OrderScreen = () => {
     }
   }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
 
-  function onApproveTest(){}
-  function createOrder(){}
-  function onApprove(){}
-  function onError(){}
+  
+    
+    function onApprove(data, actions) {
+      //this is the handler for paypal buttons works when we hit the button 
+    //payorder will be called inside of it
+    //we are calling payorder function inside of approve 
+    //once payorder is successful we will call refetch to update orderscreen not paid message
+    //actions.order.capture triggers paypal
+    return actions.order.capture().then(async function (details) {
+      try {
+        await payOrder({ orderId, details });
+        refetch();
+        toast.success('Order is paid');
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+        console.err(err)
+      }
+    });
+
+    }
+
+  
+// TESTING ONLY! REMOVE BEFORE PRODUCTION
+  async function onApproveTest() {
+    //this function just changes isPaid to true and then we dont see the pay buttons anymore
+    await payOrder({ orderId, details: { payer: {} } });
+    refetch();
+
+    toast.success('Order is paid');
+
+  }
+
+  function onError(err) {
+    toast.error(err.message);
+  }
+
+  function createOrder(data, actions) {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: { value: order.totalPrice },
+          },
+        ],
+      })
+      .then((orderID) => {
+        return orderID;
+      });
+  }
+
+
 
  // console.log(order)
   return isLoading ? (
@@ -63,7 +109,6 @@ const OrderScreen = () => {
     <Message variant='danger'>{error.data.message}</Message>
   ) : (
     <>
-      <h1>Order {order._id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
@@ -176,12 +221,12 @@ const OrderScreen = () => {
                   ) : (
                     <div>
                       {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
-                      <Button
+                      {/* <Button
                         style={{ marginBottom: '10px' }}
                         onClick={onApproveTest}
                       >
                         Test Pay Order
-                      </Button> 
+                      </Button>  */}
 
                       <div>
                         <PayPalButtons
