@@ -19,6 +19,8 @@ export const orderApiSlice = apiSlice.injectEndpoints({
     }),
     payOrder: builder.mutation({
       query: ({ orderId, details }) => ({
+        //we are destructing orderId and details so thats why curly braces
+
         url: `${ORDERS_URL}/${orderId}/pay`,
         method: 'PUT',
         body: details,

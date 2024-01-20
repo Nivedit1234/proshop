@@ -108,6 +108,10 @@ const getOrders = asyncHandler(async (req, res) => {
   res.send('get all orders');
 });
 
+const payPalFunc = asyncHandler(async (req, res) => {
+  res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
+});
+
 export {
   addOrderItems,
   getMyOrders,
@@ -115,4 +119,5 @@ export {
   updateOrderToPaid,
   updateOrderToDelivered,
   getOrders,
+  payPalFunc,
 };
