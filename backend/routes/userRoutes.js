@@ -8,7 +8,7 @@ import {
   updateUserProfile,
   getUsers,
   deleteUser,
-  getUsersById,
+  getUserById,
   updateUser,
 } from '../controllers/userController.js';
 import Product from '../models/productModel.js';
@@ -27,7 +27,7 @@ router
 
 router
   .route('/:id')
-  .get(protect, admin, getUsersById)
+  .get(protect, admin, getUserById)
   .put(protect, admin, updateUser)
   .delete(protect, admin, deleteUser);
 
