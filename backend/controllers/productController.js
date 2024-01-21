@@ -32,4 +32,24 @@ const getProductsById = asyncHandler(async (req, res) => {
 // query our products in the database, Mongoose will throw an error before we
 // reach the line of code where we throw our own error.
 
-export { getProducts, getProductsById };
+// @desc    Create a product
+// @route   POST /api/products
+// @access  Private/Admin
+const createProduct = asyncHandler(async (req, res) => {
+  const product = new Product({
+    name: 'Sample name',
+    price: 0,
+    user: req.user._id,
+    image: '/images/sample.jpg',
+    brand: 'Sample brand',
+    category: 'Sample category',
+    countInStock: 0,
+    numReviews: 0,
+    description: 'Sample description',
+  });
+
+  const createdProduct = await product.save();
+  res.status(201).json(createdProduct);
+});
+
+export { getProducts, getProductsById, createProduct };

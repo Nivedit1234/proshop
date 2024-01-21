@@ -6,10 +6,12 @@ import {
 } from '../controllers/productController.js';
 //import asyncHandler from '../middleware/asyncHandler.js';
 import Product from '../models/productModel.js';
+import { createProduct } from '../controllers/productController.js';
+import { protect, admin } from '../middleware/authMiddleware.js';
 import mongoose from 'mongoose';
 const router = express.Router();
 
-router.route('/').get(getProducts);
+router.route('/').get(getProducts).post(protect, admin, createProduct);
 router.route('/:id').get(getProductsById);
 
 //router.get(
