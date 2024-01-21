@@ -101,14 +101,13 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
   res.send('update order to deliver ');
 });
 
-//@desc Create new order
-//@route POST /api/orders
-//@access Private/Admin
-
+// @desc    Get all orders
+// @route   GET /api/orders
+// @access  Private/Admin
 const getOrders = asyncHandler(async (req, res) => {
-  res.send('get all orders');
+  const orders = await Order.find({}).populate('user', 'id name');
+  res.json(orders);
 });
-
 const payPalFunc = asyncHandler(async (req, res) => {
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
 });

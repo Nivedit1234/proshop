@@ -26,7 +26,7 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen.jsx';
 import OrderScreen from './screens/OrderScreen.jsx';
 import ProfileScreen from './screens/ProfileScreen.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
-import { OrderListScreen } from './screens/OrderListScreen.jsx';
+import OrderListScreen from './screens/OrderListScreen.jsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
