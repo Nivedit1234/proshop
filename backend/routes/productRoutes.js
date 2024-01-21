@@ -9,12 +9,16 @@ import Product from '../models/productModel.js';
 import { createProduct } from '../controllers/productController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 import { updateProduct } from '../controllers/productController.js';
-
+import { deleteProduct } from '../controllers/productController.js';
 import mongoose from 'mongoose';
 const router = express.Router();
 
 router.route('/').get(getProducts).post(protect, admin, createProduct);
-router.route('/:id').get(getProductsById).put(protect, admin, updateProduct);
+router
+  .route('/:id')
+  .get(getProductsById)
+  .put(protect, admin, updateProduct)
+  .delete(protect, admin, deleteProduct);
 
 //router.get(
 //'/',
