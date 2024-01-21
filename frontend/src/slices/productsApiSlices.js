@@ -34,6 +34,14 @@ export const productApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ['Products'], //invalidateTags to clear product tags
+      //this gets rid of any cached products
+    }),
+    uploadProductImage: builder.mutation({
+      query: (data) => ({
+        url: `/api/upload`,
+        method: 'POST',
+        body: data,
+      }),
     }),
   }),
 });
@@ -43,4 +51,5 @@ export const {
   useGetProductDetailsQuery,
   useCreateProductMutation,
   useUpdateProductMutation,
+  useUploadProductImageMutation,
 } = productApiSlice;

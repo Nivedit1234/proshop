@@ -1,3 +1,4 @@
+import path from 'path';
 import express, { urlencoded } from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
@@ -6,6 +7,7 @@ import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import { payPalFunc } from './controllers/orderController.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
+import uploadRoutes from './routes/uploadRoutes.js';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -30,6 +32,7 @@ app.get('/', (req, res) => {
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/upload', uploadRoutes);
 
 app.get('/', (req, res) => {
   res.json(products);
@@ -46,6 +49,9 @@ app.use('/api/config/paypal', payPalFunc);
 
 //   res.json(product);
 // });
+
+const __dirname = path.resolve(); //Set __dirname to current directory
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.use(errorHandler);
 app.use(notFound);
