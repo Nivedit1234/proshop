@@ -13,6 +13,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
         url: PRODUCT_URL,
       }),
       keepUnusedDataFor: 5,
+      providesTags: ['Products'], //provideTags otherwise you will have to refresh the page
     }),
     getProductDetails: builder.query({
       query: (productId) => ({
@@ -26,6 +27,14 @@ export const productApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Product'],
     }),
+    updateProduct: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCT_URL}/${data.productId}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: ['Products'], //invalidateTags to clear product tags
+    }),
   }),
 });
 
@@ -33,4 +42,5 @@ export const {
   useGetProductsQuery,
   useGetProductDetailsQuery,
   useCreateProductMutation,
+  useUpdateProductMutation,
 } = productApiSlice;
