@@ -45,7 +45,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
 const getMyOrders = asyncHandler(async (req, res) => {
   const order = await Order.find({ user: req.user._id });
-  res.status(200).res.json(order);
+  res.status(200);
+  res.json(order);
 });
 
 //@desc Get order by id
