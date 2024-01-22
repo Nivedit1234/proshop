@@ -9,7 +9,7 @@ const reviewSchema = new mongoose.Schema(
     },
 
     name: {
-      type: String,
+      type: String, //name of the user
       required: true,
     },
 
@@ -19,7 +19,7 @@ const reviewSchema = new mongoose.Schema(
     },
 
     comment: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
