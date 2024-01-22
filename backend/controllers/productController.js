@@ -7,9 +7,29 @@ import Product from '../models/productModel.js';
 //@access Public
 
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}); // {} empty object will get all the products
-  res.json(products);
+  const pageSize = 4; //decides how many products to bring from db
+  const page = Number(req.query.pageNumber) || 1;
+  const count = await Product.countDocuments(); //gives how many total products are there in db
+
+  const products = await Product.find({}) // {} empty object will get all the products
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+  res.json({ products, page, count, pages: Math.ceil(count / pageSize) });
+
+  //res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
+
+// This code is for implementing pagination in a Node.js application, specifically for retrieving a list of products from a database. Let's break down the key components:
+
+// const pageSize = 4;: This variable defines the number of products to be fetched per page. In this case, it's set to 4, meaning each page will display up to 4 products.
+
+// const page = Number(req.query.pageNumber) || 1;: This line extracts the page number from the request query parameters (req.query.pageNumber). If the page number is not provided or is not a valid number, it defaults to 1.
+
+// const count = await Product.countDocuments();: This line calculates the total number of products in the database using the countDocuments method. The total count is crucial for determining the number of pages needed for pagination.
+
+// const products = await Product.find({}) .limit(pageSize) .skip(pageSize * (page - 1));: This is the main query to fetch products from the database. It uses the find method to get all products, limits the result to pageSize products, and skips the appropriate number of products based on the current page.
+
+// res.json({ products, page, count, pages: Math.ceil(count / pageSize) });: Finally, the server responds with a JSON object containing the fetched products (products), the current page (page), the total count of products (count), and the total number of pages (pages). The Math.ceil(count / pageSize) is used to calculate the total number of pages needed, rounding up to ensure all products are covered.
 
 //@desc Get specific Products
 //@route GET /api/products/:id

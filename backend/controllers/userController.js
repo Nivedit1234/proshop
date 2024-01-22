@@ -132,6 +132,17 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
   res.json(users);
+
+  //Pagination for users
+
+  //   const pageSize = 2; //decides how many products to bring from db to be displayed per page
+  //   const page = Number(req.query.pageNumber) || 1;
+  //   const count = await User.countDocuments(); //gives how many total users are there in db
+
+  //   const users = await User.find({}) // {} empty object will get all the users
+  //     .limit(pageSize)
+  //     .skip(pageSize * (page - 1));
+  //   res.json({ users, page, count, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc    Delete user
