@@ -7,6 +7,7 @@ import {LinkContainer} from 'react-router-bootstrap';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import {logout} from '../slices/authSlice'
 import SearchBox from './SearchBox';
+import { resetCart } from '../slices/cartSlice';
 import React from 'react'
 
 const Header = () => {
@@ -23,6 +24,7 @@ const Header = () => {
              //unwrap mwthod will extract resolved value from the promise
               await logoutApiCall().unwrap(); 
               dispatch(logout());
+              dispatch(resetCart());
               navigate('/login');
             } catch (error) {
                console.error(error)

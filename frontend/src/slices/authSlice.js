@@ -21,7 +21,9 @@ const authSlice = createSlice({
       //this logout func here will take care of clearing localStorage
       // logged in user doesn't inherit the previous users cart and shipping
       state.userInfo = null;
-      localStorage.removeItem('userInfo');
+      // NOTE: here we need to also remove the cart from storage so the next
+      // logged in user doesn't inherit the previous users cart and shipping
+      localStorage.clear();
     },
   },
 });

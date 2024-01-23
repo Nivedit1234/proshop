@@ -16,24 +16,24 @@ const errorHandler = (err, req, res, next) => {
 
   //Check for mongoose bad ObjectId --> when invalid product id is given in url
 
-  if (err.name === 'CastError' && err.kind === 'ObjectId') {
-    message: 'Resource not found';
-    statusCode: 404;
+  // if (err.name === 'CastError' && err.kind === 'ObjectId') {
+  //   message: 'Resource not found';                     -------->this code is not needed anymore checkObjectId will do the job
+  //   statusCode: 404;
+  // }
+  // However if we have a invalid **ObjectId** as `req.params.id` and use that to
+  // query our products in the database, Mongoose will throw an error before we
+  // reach the line of code where we throw our own error.
 
-    // However if we have a invalid **ObjectId** as `req.params.id` and use that to
-    // query our products in the database, Mongoose will throw an error before we
-    // reach the line of code where we throw our own error.
-
-    //     In section **3 - Custom Error Middleware** we throw an error from our
-    // `getProductById` controller function, with a _custom_ message.
-    // However if we have a invalid **ObjectId** as `req.params.id` and use that to
-    // query our products in the database, Mongoose will throw an error before we
-    // reach the line of code where we throw our own error.
-  }
+  //     In section **3 - Custom Error Middleware** we throw an error from our
+  // `getProductById` controller function, with a _custom_ message.
+  // However if we have a invalid **ObjectId** as `req.params.id` and use that to
+  // query our products in the database, Mongoose will throw an error before we
+  // reach the line of code where we throw our own error.
 
   res.status(statusCode).json({
     message,
-    stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
+    // stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
+    stack: process.env.NODE_ENV === 'production' ? null : err.stack,
   });
 };
 

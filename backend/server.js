@@ -25,18 +25,18 @@ app.use(express.urlencoded({ extended: true }));
 //To parse the cookie from the req object
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
-  res.send('API is running...');
-});
+// app.get('/', (req, res) => {
+//   res.send('API is running...');
+// });
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 
-app.get('/', (req, res) => {
-  res.json(products);
-});
+// app.get('/', (req, res) => {
+//   res.json(products);
+// });
 
 // app.get('/api/config/paypal', (req, res) => {
 //   res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
@@ -53,16 +53,23 @@ app.use('/api/config/paypal', payPalFunc);
 const __dirname = path.resolve(); //Set __dirname to current directory
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
+// //we want the root of our app our server to load the build version of react
 // if (process.env.NODE_ENV === 'production') {
-//   const __dirname = path.resolve();
-//   //app.use('/uploads', express.static('/var/data/uploads'));
+//   // const __dirname = path.resolve();
+//   // app.use('/uploads', express.static('/var/data/uploads'));
+//   //set static folder
 //   app.use(express.static(path.join(__dirname, '/frontend/build')));
+//   //any route that is not api will be redirected to index.html
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
 
-//   app.get('*', (req, res) =>
-//     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-//   );
+//     if (err) {
+//       console.error(err);
+//       res.status(500).send('Internal Server Error');
+//     }
+//   });
 // } else {
-//   const __dirname = path.resolve();
+//   //const __dirname = path.resolve();
 //   //app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 //   //if you are not in production we are running rect dev server
 //   app.get('/', (req, res) => {
@@ -70,9 +77,29 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 //   });
 // }
 
+if (process.env.NODE_ENV === 'production') {
+  // const __dirname = path.resolve();
+  // app.use('/uploads', express.static('/var/data/uploads'));
+  //set static folder
+  const __dirname = path.resolve();
+  app.use('/uploads', express.static('/var/data/uploads'));
+  app.use(express.static(path.join(__dirname, '/frontend/build')));
+  //any route that is not api will be redirected to index.html
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  );
+} else {
+  const __dirname = path.resolve();
+  //if you are not in production we are running rect dev server
+  app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+  app.get('/', (req, res) => {
+    res.send('API is running....');
+  });
+}
+
 app.use(errorHandler);
 app.use(notFound);
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`);
 });

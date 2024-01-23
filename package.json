@@ -12,7 +12,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "import": "node backend/seeder.js",
     "destroy": "node backend/seeder.js -d",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "build":"npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    
 
   },
   "author": "NIVEDIT INDRAS",
