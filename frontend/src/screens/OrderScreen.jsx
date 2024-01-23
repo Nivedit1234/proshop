@@ -76,15 +76,15 @@ const OrderScreen = () => {
     }
 
   
-// TESTING ONLY! REMOVE BEFORE PRODUCTION
-  async function onApproveTest() {
-    //this function just changes isPaid to true and then we dont see the pay buttons anymore
-    await payOrder({ orderId, details: { payer: {} } });
-    refetch();
+// // TESTING ONLY! REMOVE BEFORE PRODUCTION
+//   async function onApproveTest() {
+//     //this function just changes isPaid to true and then we dont see the pay buttons anymore
+//     await payOrder({ orderId, details: { payer: {} } });
+//     refetch();
 
-    toast.success('Order is paid');
+//     toast.success('Order is paid');
 
-  }
+//   }
 
   function onError(err) {
     toast.error(err.message);
@@ -179,7 +179,7 @@ const OrderScreen = () => {
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                          {item.qty} x &#x20B9;{item.price} = &#x20B9;{item.qty * item.price}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -198,25 +198,25 @@ const OrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>${order.itemsPrice}</Col>
+                  <Col>&#x20B9;{order.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping</Col>
-                  <Col>${order.shippingPrice}</Col>
+                  <Col>&#x20B9;{order.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax</Col>
-                  <Col>${order.taxPrice}</Col>
+                  <Col>&#x20B9;{order.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>${order.totalPrice}</Col>
+                  <Col>&#x20B9;{order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>  
               {!order.isPaid && (

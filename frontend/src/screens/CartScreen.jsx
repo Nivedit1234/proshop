@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link,useNavigate} from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
-import {Row,Col,ListGroup,Image,Form,Button,Card, ListGroupItem} from 'react-bootstrap';
+import {Row,Col,ListGroup,Image,Form,Button,Card} from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import Message from '../components/Message';
 import { addToCart,removeFromCart } from '../slices/cartSlice';
@@ -69,7 +69,7 @@ const checkOutHandler = () => {
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <h2> Subtotal ({cartItems.reduce((acc,item) => acc + item.qty, 0)}) items </h2>
-              ${cartItems.reduce((acc,item) => acc +(item.price*item.qty),0 )}
+              &#x20B9;{cartItems.reduce((acc,item) => acc +(item.price*item.qty),0 )}
             </ListGroup.Item>
             <ListGroup.Item>
                <Button type='button' className='btn-block' disabled={cartItems.length === 0}
