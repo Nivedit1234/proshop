@@ -12,9 +12,9 @@ import { useParams } from 'react-router-dom';
 
 const HomeScreen = () => {
 
-const {pageNumber}=useParams();
+const {keyword,pageNumber}=useParams();
 
-const {data,error,isLoading} =useGetProductsQuery({pageNumber});
+const {data,error,isLoading} =useGetProductsQuery({keyword,pageNumber});
  //console.log(data.products);
   //const Prods=data.products;
   //{console.log(data.products);}
@@ -52,7 +52,7 @@ const {data,error,isLoading} =useGetProductsQuery({pageNumber});
              ))
         }
       </Row>
-      <Paginate page={data.page} pages={data.pages}/>
+      <Paginate page={data.page} pages={data.pages} keyword={keyword ? keyword : ''}/>
       </>)}
      
     </>

@@ -9,9 +9,19 @@ import Product from '../models/productModel.js';
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 4; //decides how many products to bring from db
   const page = Number(req.query.pageNumber) || 1;
-  const count = await Product.countDocuments(); //gives how many total products are there in db
 
-  const products = await Product.find({}) // {} empty object will get all the products
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i',
+        },
+      }
+    : {};
+
+  const count = await Product.countDocuments({ ...keyword }); //gives how many total products are there in db
+
+  const products = await Product.find({ ...keyword }) // {} empty object will get all the products
     .limit(pageSize)
     .skip(pageSize * (page - 1));
   res.json({ products, page, count, pages: Math.ceil(count / pageSize) });
