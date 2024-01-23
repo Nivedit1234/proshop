@@ -9,6 +9,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message'
 import Paginate from '../components/Paginate';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const HomeScreen = () => {
 
@@ -36,6 +37,9 @@ const {data,error,isLoading} =useGetProductsQuery({keyword,pageNumber});
 // console.log(products);
   return (
     <>
+     {keyword && <Link to='/' className='btn btn-light mb-4'>
+          Go Back
+        </Link>}
     {isLoading ? 
     (<Loader></Loader>) :
      error ? (<Message variant='danger'>{error?.data?.message || error.error}</Message>) : 
